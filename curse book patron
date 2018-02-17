@@ -1,0 +1,84 @@
+
+/*	-WHAT IS THIS?-
+The script featured here is an explanation of how to make your own custom addition to MPMB's D&D 5e Character Tools.
+To add your own content to the Character Sheet, use the syntax below and save it in a file. You can then import this file directly to the sheet using the "Import" button and "Import/Export" bookmark.
+There you can either import the file as a whole or just copy the text into a dialogue.
+-KEEP IN MIND-
+Note that you can add as many custom codes as you want, either by importing consecutive files or pasting the scripts into the dialogue.
+It is recommended to enter the code in a freshly downloaded or reset sheet before adding any other information so that there won't be any conflicts.
+*/
+
+/*	-INFORMATION-
+Subject:	Subclass (a.k.a. Archetype)
+Effect:		Accursed archives
+Sheet:		v12.999 (2017-11-29)
+*/
+
+var iFileName = "C.o.F.S - Accursed Archives.js"; // Optional; This is how the file will be named in the sheet if you import it as a file and not copy-paste its content. Only the first occurrence of this variable will be used
+RequiredSheetVersion(12.999); // Optional; This is the minimum required version number of the sheet for the script to work. If the sheet being used to import the script is of an earlier version, the user will be warned
+
+AddSubClass( // this is the function you will be calling to add the variant
+
+"warlock", // Parent Class object name; Required; This has to be the exact name of the class of which you are adding a subclass. Look for the name of the class in the ClassList variable. For the default 12 classes these names are: "barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "rogue", "sorcerer", "warlock", and "wizard"
+
+"the accursed archives", // Object name; Required; The name the entry in the ClassSubList will have. This can be anything, it is just something that the sheet uses to reference the new entry and it will never be printed anywhere
+
+{ // don't forget this opening bracket
+
+regExpSearch : /^(?=.*accursed)(?=.*archives).*$/i, //required; regular expression of what to look for (i.e. now it looks for any entry that has both the words "special" and "me" in it, disregarding capitalization). If this looks to complicated, just write: /specialme/i
+
+subname : "the Accursed Archives", //required; the name of the subclass
+
+source : ["HB", 0], //required; the source and the page number. "HB" stands for homebrew. See the "Complete SourceList" for an overview of sources that are already defined. Or define a new source using the "Homebrew Syntax - SourceList.js". // This can be an array of arrays to indicate the things appears in multiple sources. For example, if something appears on page 7 of the Elemental Evil Player's Companion and on page 115 of the Sword Coast Adventure Guide, use the following: [["E", 7], ["S", 115]]
+
+// after defining the above three, you don't need to define anything more, but you can. Defining more stuff will overwrite the entries as they are given in the ClassList. So if you do not need something to be different than the basics of the class (for example, you subclass uses the same spellcasting ability), then you don't need to define it again.
+// For the syntax of how to define more stuff, look at the ClassList (see "Homebrew Syntax - ClassList.js"). You can define all the same stuff in the same way. The below are a couple of examples:
+
+fullname : "", //if no fullname is defined it will be automatically generated as "Class Name (Subclass name)". In this example that would be: "MyClass (Path of SpecialMe)"
+
+abilitySave : 6, //overwrites the abilitySave that was defined in the ClassList
+abilitySaveAlt : 2,//overwrites the abilitySaveAlt that was defined in the ClassList
+spellcastingFactor : 2, //overwrites the spellcastingFactor that was defined in the ClassList
+
+features : { //unlike the other entries, "features" will not delete all the features from the ClassList, but will add to the features in the ClassList. For this to work properly, the feature object has to be named "subclassfeatureX" and not something appropriate for the feature. The below are the features of the purple Dragon Knight
+
+  "subclassfeature3" : { // has to start with "subclassfeature" followed by a number. Note that the name has to be unique for this subclass, but it can be the same name as one of the features of the class in the ClassList variable. If you use the same name as a feature in the ClassList variable, it will be overwritten with this entry
+    name : "Tainted Knowledge",
+    source : ["S", 128],
+    minlevel : 1,
+    description : "\n   " + "At 1st level, you have feasted your eyes upon the books of the Archive, and your mind has both withered and grown. Your proficiency bonus is doubled for any ability check you make that uses the Arcana, History, Nature, or Religion skill if you are proficient in that skill, and you gain proficiency in one skill of your choosing. You can use an action to enter the Accursed Archive along with up to ten willing companions of your choosing. Time does not pass outside the Archive while you are within, and you cannot rest, recover hit points, or maintain concentration while inside. When you choose to depart, you and your companions return instantly to the point from which you entered. Once you use this feature, you cannot do so again until you finish a long rest.",
+    skillstxt : "\n\n" + toUni("the Accursed Archives (Tainted Knowledge)") + ": You gain expertise in the Arcana, History, Nature, or Religion skill if you are proficient in that skill, and you gain proficiency in one skill of your choosing.",
+    skills : ["History", "Arcana"],
+    spellcastingExtra : ["detect good and evil", "inflict wounds", "dark secret", "accursed wish", "blackened heart", "blasphemy", "evards black tentacles", "forbidden obelisk", "dispell evil and good", "legend lore"],
+  },
+  "subclassfeature6" : {
+    name : "Written in Blood",
+    source : ["S", 128],
+    minlevel : 6,
+    description : "\n   " + "When you take damage, you can use your reaction to summon a monstrosity, fiend, or aberration with a CR less than or equal to one-third of your warlock level to a location within 10 feet of you. The DM chooses which creature of your chosen type is summoned, and its CR should be as close as possible to the chosen value. When summoned, the creature is initially hostile to all. The creature remains for one hour or until you banish it as an action while within 30 feet of it. The creature must make a Charisma saving throw and is banished on a fail. You can continue to attempt to banish the creature until you succeed.",
+    usages : 1, //optional; number of times it can be used. This can be one value, but can also be an array of 20 values, one for each level. It is recommended to use a numerical value, but if you use a string, include " per " at the end, like "1d10 per "
+    recovery : "long rest", //required if "usages" is defined; way of getting the limited feature recharged. Only if you define both the 'usages' and 'recovery' will the feature be added to the limited features
+    action : ["bonus action", ""] //optional; adds the name of this feature to the bonus action list when chosen. The options are "action", "bonus action", and "reaction"
+  },
+  "subclassfeature10" : {
+    name : "Vile Heresies",
+    source : ["S", 128],
+    minlevel : 10,
+    description : "\n   " + "At 10th level, you uncover secrets that could shatter the balance of the heavens and hells. Choose any spell of 4th level or lower that is not a cantrip. You can cast this spell once using a warlock spell slot. Whenever you are within the Archive, you can exchange this spell for a different one, but cannot use it until you finish a long rest. Whenever you cast your chosen spell, you gain immunity to the frightened condition. This immunity lasts until you finish a short rest.",
+    usages : 1, //optional; number of times it can be used. This can be one value, but can also be an array of 20 values, one for each level. It is recommended to use a numerical value, but if you use a string, include " per " at the end, like "1d10 per "
+    recovery : "short rest", //required if "usages" is defined; way of getting the limited feature recharged. Only if you define both the 'usages' and 'recovery' will the feature be added to the limited features
+    action : ["action", ""]
+  },
+  "subclassfeature15" : {
+    name : "Unspeakable Truth",
+    source : ["S", 128],
+    minlevel : 14,
+    description : "\n   " + "You've discovered the real purpose of the Accursed Archive - the spread of the information that will bring ruin to the world. Whenever you have spent at least one minute communicating with one or more creatures, you can attempt to share an Unspeakable Truth with them. All creatures who can hear and understand your words other than you must make a Wisdom s.t vs. you Spell D.c. If they fail, they are driven mad, and suffer the confusion spell effect indefinitely. They can repeat this s.t with disadvantage each time they suffer damage to break the effect. If they succeed the original saving throw, they can cast a single spell of your choosing that you can cast of 3rd level or lower once without expending a spell slot – all creatures receive the same spell, and you choose the spell each time you use this feature. The spell you choose must be able to inflict damage. Charisma is their spellcasting ability for this spell. A creature can only be affected once by this feature per 24 hours. Each creature can gain only one usage of this benefit at a time. If they would receive the benefit of this feature more than once, the new spell replaces the old spell.",
+  },
+  AddWarlockInvocation("The Archivist's Index (prereq: Pact of the Tome)", {
+	name : "The Archivist's Index",
+	source : ["D", 20],
+	description : "You gain advantage on saving throws while within the Archive. Whenever you cast a spell of 1st level or higher that deals damage, you can use your bonus action to cause one target of the spell to become vulnerable to a single damage type until the start of your next turn, rolled randomly on the table below. If the spell you cast deals that damage type, roll again until you get a different result. If the creature has resistance to the damage type, this resistance is ignored for the duration. Once you activate this feature, you cannot do so again until you finish a short or long ", "\n   " + "1 Fire 2 Cold 3 Poison 4 Necrotic",
+}
+}
+);

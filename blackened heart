@@ -1,0 +1,85 @@
+/*	-WHAT IS THIS?-
+		The script featured here is an explanation of how to make your own custom addition to MPMB's D&D 5e Character Tools.
+		To add your own content to the Character Sheet, use the syntax below and save it in a file. You can then import this file directly to the sheet using the "Import" button and "Import/Export" bookmark.
+		There you can either import the file as a whole or just copy the text into a dialogue.
+
+		-KEEP IN MIND-
+		Note that you can add as many custom codes as you want, either by importing consecutive files or pasting the scripts into the dialogue.
+		It is recommended to enter the code in a freshly downloaded or reset sheet before adding any other information so that there won't be any conflicts.
+	*/
+
+
+	/*	-INFORMATION-
+		Subject:	Spell
+		Effect:		This is the syntax for adding a new spell
+		Sheet:		v12.999 (2017-11-29)
+
+		Please note that there is no code here to update drop-down boxes because the rop-down boxes in the spell selection dialogues are generated automatically and will include any spells you add correctly
+
+		If you are looking for a way to add a cantrip/spell to the drop-down boxes in the attack sections, then you will have to look at the WeaponsList syntax and add the cantrip/spell as a weapon (as well)
+	*/
+
+  var iFileName = "Accursed Wish.js";
+  	RequiredSheetVersion(12.999);
+
+
+  	SpellsList["accursed wish"] = {
+
+  		name : "Accursed Wish",
+
+  		nameShort : "Acc. Wish",
+
+  		nameAlt : "Accursed Wish",
+
+  		classes : ["warlock"],
+
+  		source : ["HB", 0],
+
+  		ritual : false,
+
+  		level : 2,
+
+  		school : "Conj",
+
+  		time : "1 action",
+
+  		range : "self",
+
+  		components : "V",
+
+  		compMaterial : "-",
+
+  		duration : "Instantaneous",
+
+
+  		save : "-",
+
+  		description : "fuck up n you die, otherwise your wish comes true kinda",
+
+  		descriptionMetric : " fuck up n you die, otherwise your wish comes true kinda ",
+
+  		descriptionFull : " You speak aloud, demanding a boon from one of the\
+  darkest planes. You instantly replicate the effects of a spell of\
+  1st level from the sorcerer spell list, or a cantrip from any\
+  spell list. Each time you cast this spell, roll a d20. If the result\
+  is a 1 or lower, you are struck by an unholy force, and are\
+  reduced to 0 hit points and fail your first and second death\
+  saving throws immediately after the spell is cast. If you are\
+  struck down a second time due to this spell before you finish\
+  a long rest, you die and cannot be resurrected by a spell cast\
+  using a spell slot lower than 8th level." + "\n   " + " At Higher Levels When you cast this spell using a spell\
+  slot of 3rd level, you can replicate a spell of 2nd level or lower,\
+  and the threshold for being struck increases to a result of 2\
+  or lower. When you cast this spell using a spell slot of 4th\
+  level, you can replicate a spell of 3nd level or lower, and the\
+  threshold for being struck increases to a result of 3 or lower.\
+  This pattern continues until the spell is cast using a slot of\
+  7th or higher level, where no additional effect is gained and\
+  the threshold is not increased.",
+
+  		firstCol : "markedbox",
+
+  		dependencies : [],
+
+  		psionic : false,
+  	};
